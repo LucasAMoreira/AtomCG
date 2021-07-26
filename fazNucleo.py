@@ -91,11 +91,6 @@ def anima(i):
 	i=0	
 
 def inicializa():
-	i=0
-	while i<10:
-		anima(i)
-		i=i+0.01
-	i=0
 	luzAmbiente = [0.2,0.2,0.2,1.0]
 	luzDifusa = [0.7,0.7,0.7,1.0]
 	luzEspecular = [1.0,1.0,1.0,1.0]
@@ -130,6 +125,12 @@ def inicializa():
 	# Habilita o depth-buffering
 	glEnable(GL_DEPTH_TEST);	
 	
+	i=0
+	while True:
+		anima(i)
+		i=i+0.01
+	i=0
+	
 arr=retornaPos(a)
 cores = retornaCor(a)
 	
@@ -137,7 +138,6 @@ glutInit();
 glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 glutInitWindowSize(width,length)
 janela = glutCreateWindow("Atomo")
-inicializa()
 glutDisplayFunc(inicializa);
 glutMainLoop()
 
