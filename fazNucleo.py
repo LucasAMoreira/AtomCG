@@ -21,6 +21,17 @@ def desenha():
 	glColor3f(0.0,0.0,1.0)	
 	glutSolidSphere(20.0,50,80);
 	
+def translacao():
+	i=0;
+	while i<60:
+		glClear(GL_COLOR_BUFFER_BIT)
+		glBegin(GL_POINTS)
+		glTranslate(0,0,i)
+		glutSolidSphere(5.0,50,80)
+		i=i+1
+	i=0	
+	return	
+	
 def retornaPos(n):
 	arr =[]
 	i=0
@@ -37,16 +48,7 @@ def retornaCor(n):
 		i=i+1
 	return arr
 
-def translacao(value):
 
-	glutPostRedisplay();
-	glutTimerFunc(33,translacao, 1);
-
-	glTranslate(j-value,0,-j-value)
-	glColor3f(1.0,0.0,0.0)
-	glutSolidSphere(1.0,50,80);
-	
-	return
 
 def fazAtomo(n):
 	# Faz núcleo
@@ -58,29 +60,10 @@ def fazAtomo(n):
 		i=i+3
 	j=-50
 
-	'''	
-	# Faz eletron
-	glTranslate(-j,0,-j);
-	glColor3f(1.0,0.0,0.0)
-	glutSolidSphere(1.0,50,80);
-	'''
-
-	glutPostRedisplay();
-	glutTimerFunc(33,translacao, 1);
-	translacao(1)
-	'''
-	else:
-		glTranslate(j,0,20);
-		glColor3f(1.0,0.0,0.0)
-		glutSolidSphere(2.0,50,80);
-	'''
-
-	j=j+1	
 	return	
 	
 
-
-def vizualizacao():
+def visualizacao():
 	#Toda futura operação vai afetar a câmera
 	glMatrixMode(GL_PROJECTION);	
 	glLoadIdentity();
@@ -97,14 +80,22 @@ def vizualizacao():
 		
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glColor3f(1.0,0.0,0.0)
-	#desenha()
-	fazAtomo(a);
+
+	fazAtomo(7)
+
+def anima(i):
+	visualizacao()
+	glTranslate(cos(i)*30,0,sin(i)*50)
+	glutSolidSphere(1.0,50,80)
 	glutSwapBuffers();
-	
+	i=0	
 
 def inicializa():
-	vizualizacao()
-	
+	i=0
+	while i<10:
+		anima(i)
+		i=i+0.01
+	i=0
 	luzAmbiente = [0.2,0.2,0.2,1.0]
 	luzDifusa = [0.7,0.7,0.7,1.0]
 	luzEspecular = [1.0,1.0,1.0,1.0]
@@ -146,8 +137,7 @@ glutInit();
 glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 glutInitWindowSize(width,length)
 janela = glutCreateWindow("Atomo")
-glutDisplayFunc(desenha);
-glutTimerFunc(33, translacao, 1);
-glutIdleFunc(inicializa)
+inicializa()
+glutDisplayFunc(inicializa);
 glutMainLoop()
 
