@@ -22,6 +22,7 @@ arr.append(sin(0)*50)
 parada=False
 
 
+
 class Eletron:
 
 	def __init__(self,x,y,z):
@@ -43,11 +44,13 @@ class Eletron:
 #Recebe como parâmetro o número de massa n e desenha um núcleo
 def fazNucleo(n):
 	i=0
-	while i<3*n:	
+	while i<3*n:
+			
 		glTranslated(arr[i],arr[i+1],arr[i+2]);
 		glColor3f(cores[i],cores[i+1],cores[i+2])
 		glutSolidSphere(4.0,50,8);									
 		i=i+3
+	matrizesOriginais()
 	return
 
 #Recebe como parâmetro a matriz usada para calcular a translacao e o número de eletrons
@@ -57,35 +60,23 @@ def fazCamadaEletrons(n,k):
 	i=0;
 	eletrons=[]
 	while i<n:
-		'''
-		#define coordenadas
-		x=(sin(k+i)*30)-3*(i*sin(k))
+		# Define coordenadas do eletron atual
+		rad=(2*pi)/n		
+		x=(sin((rad*i)+k)*40)-3*(i*sin(k))
 		y=0
-		z=(cos(k+i)*30)-3*(i*cos(k))
-		'''
-		
-		rad=(2*pi)/n
-		
-		x=(sin((rad*i)+k)*30)-3*(i*sin(k))
-		y=0
-		z=(cos((rad*i)+k)*30)-3*(i*cos(k))
-				
-		
-		#matriz identidade
-		#matriz=glLoadIdentity();
-		
-		#Cria eletron
-		glColor3f(0.0,0.0,1.0)
-					 
+		z=(cos((rad*i)+k)*40)-3*(i*cos(k))
+						
+		# Cria eletron							 
 		eletron=Eletron(x,y,z)	
 		
 		# Adiciona eletron no arranjo eletrons				
 		eletrons.append(eletron)
+		
+		# Limpa matriz (Para a rotação dos eletrons ficar correta)
+		matrizesOriginais()
 		i=i+1
 		
 	return eletrons
-
-
 
 
 	
@@ -94,8 +85,7 @@ def desenhaAtomo(i):
 	
 	nucleo=fazNucleo(7)
 	
-	eletrons=fazCamadaEletrons(3,i)
-	#eletrons=animaEletrons(eletrons,i)
+	eletrons=fazCamadaEletrons(2,i)
 
 	glutSwapBuffers();
 
@@ -123,10 +113,22 @@ def visualizacao():
 	gluLookAt(0,80,200, 0, 0, 0, 0, 1, 0);
 		
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-	glColor3f(1.0,0.0,0.0)
-
 	
 
+def matrizesOriginais():	
+	#Toda futura operação vai afetar a câmera
+	matriz=glMatrixMode(GL_PROJECTION);	
+	glLoadIdentity();
+		
+	#Perspectiva: angulo, altura, distancia corte mais perto, distancia fundo
+	gluPerspective(45, f,0.1,500);
+	
+	#Toda futura operação vai afetar o desenho -> GL_MODELVIEW
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	#define (x,y,z) da camera, (x,y,z) do objeto e (x,y,z) do vetor de cima da cena
+	gluLookAt(0,80,200, 0, 0, 0, 0, 1, 0);
 	
 
 def inicializa():
