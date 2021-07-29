@@ -4,10 +4,13 @@ from OpenGL.GLUT import *
 
 from desenho import*
 from interacao import*
-	
-numeroEletrons = 108	
-numeroMassa = 8
-	
+
+'''
+Caso você queira alterar o número de massa e o número de elétrons, vá ao arquivo desenho.py
+
+'''
+
+
 glutInit();
 glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 glutInitWindowSize(width,length)

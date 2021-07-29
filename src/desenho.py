@@ -4,24 +4,28 @@ from OpenGL.GLUT import *
 
 from util_atomo import*
 
+# -------------------------
+# -------------------------
+
+numeroMassa=10
+numeroEletrons=40
+
+# -------------------------
+# -------------------------
+
+
+# Tamanho da janela
 width=500;
 length=500;
 
 f = width/length;
 
-a=7
-j=-50
+# retorna arranjo de combinações de cores
+coresc=retornaCor(numeroEletrons)
+cores = retornaCor(numeroMassa) 
 
-'''
-arr=[]
-arr.append(cos(0)*30)
-arr.append(0)
-arr.append(sin(0)*50)
-'''
-
-parada=False
-
-coresc=retornaCor(7)
+# retorna arranjo com posições dos elementos do núcleo
+arr=retornaPos(numeroMassa)
 
 class Eletron:
 
@@ -34,12 +38,6 @@ class Eletron:
 		self.particula=glutSolidSphere(1.0,50,80);
 		return
 
-	def translada(x,y,z):
-		glColor3f(0.0,0.0,1.0)
-		glTranslated(x,y,z)
-		self.particula=glutSolidSphere(1.0,50,80);
-
-
 
 #Recebe como parâmetro o número de massa n e desenha um núcleo
 def fazNucleo(n):
@@ -48,12 +46,12 @@ def fazNucleo(n):
 			
 		glTranslated(arr[i],arr[i+1],arr[i+2]);
 		glColor3f(cores[i],cores[i+1],cores[i+2])
-		glutSolidSphere(4.0,50,8);									
+		glutSolidSphere(3.0,50,8);									
 		i=i+3
 	matrizesOriginais()
 	return
 
-#Recebe como parâmetro a matriz usada para calcular a translacao e o número de eletrons
+#Recebe como parâmetro o número de eletrons e um número K representando o deslocamento deles
 #Retorna um arranjo de eletrons
 def fazCamadaEletrons(n,k):
 
@@ -63,36 +61,17 @@ def fazCamadaEletrons(n,k):
 	
 	camadas = retornaCamadas(n)
 	
-	
-	'''
-	while i<n:
-		# Define coordenadas do eletron atual
-		rad=(2*pi)/n		
-		x=(sin((rad*i)+k)*40)#-3*(i*sin(k))
-		y=0
-		z=(cos((rad*i)+k)*40)#-3*(i*cos(k))
-						
-		# Cria eletron							 
-		eletron=Eletron(x,y,z)	
-		
-		# Adiciona eletron no arranjo eletrons				
-		eletrons.append(eletron)
-		
-		# Limpa matriz (Para a rotação dos eletrons ficar correta)
-		matrizesOriginais()
-		i=i+1
-	'''
 	while j<len(camadas):
 		distancia=20+(j*5)
 		
 		glColor(coresc[j*1],coresc[(j*1)+1],coresc[(j*1)+2])
-		#glColor(1.0,0.1,0.1)
+		
 		while i<camadas[j]:
 			# Define coordenadas do eletron atual
 			rad=(2*pi)/camadas[j]		
-			x = (sin((rad*i)+k)*distancia)
-			y = 0
-			z = (cos((rad*i)+k)*distancia)
+			x = (sin((rad*i)+k+j)*distancia)
+			y = 1
+			z = (cos((rad*i)+k+j)*distancia)
 							
 			# Cria eletron							 
 			eletron=Eletron(x,y,z)	
@@ -114,26 +93,19 @@ def fazCamadaEletrons(n,k):
 def desenhaAtomo(i):
 	visualizacao()
 	
-	nucleo=fazNucleo(7)
+	nucleo=fazNucleo(numeroMassa)
 	
-	eletrons=fazCamadaEletrons(108,i)
+	eletrons=fazCamadaEletrons(numeroEletrons,i)
 
 	glutSwapBuffers();
 
-		
+
+# 		
 def anima():
-	'''
-	camadas = retornaCamadas(8)
-	j=0
-	while j<len(camadas):
-		print(camadas[j]) 
-		j=j+1
-	'''
 	
 	tempo=glutGet(GLUT_ELAPSED_TIME)
 	i=0
 	while (tempo<20000):
-		print(tempo)
 		desenhaAtomo(i)		
 		i=i+0.01
 		tempo=glutGet(GLUT_ELAPSED_TIME)
@@ -211,9 +183,5 @@ def inicializa():
 	
 	desenhaAtomo(0)
 	
-
-		
-arr=retornaPos(a)
-cores = retornaCor(a)
 
 
