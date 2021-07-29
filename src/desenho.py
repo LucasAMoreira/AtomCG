@@ -21,7 +21,7 @@ arr.append(sin(0)*50)
 
 parada=False
 
-
+coresc=retornaCor(7)
 
 class Eletron:
 
@@ -58,13 +58,19 @@ def fazNucleo(n):
 def fazCamadaEletrons(n,k):
 
 	i=0;
+	j=0;
 	eletrons=[]
+	
+	camadas = retornaCamadas(n)
+	
+	
+	'''
 	while i<n:
 		# Define coordenadas do eletron atual
 		rad=(2*pi)/n		
-		x=(sin((rad*i)+k)*40)-3*(i*sin(k))
+		x=(sin((rad*i)+k)*40)#-3*(i*sin(k))
 		y=0
-		z=(cos((rad*i)+k)*40)-3*(i*cos(k))
+		z=(cos((rad*i)+k)*40)#-3*(i*cos(k))
 						
 		# Cria eletron							 
 		eletron=Eletron(x,y,z)	
@@ -75,6 +81,31 @@ def fazCamadaEletrons(n,k):
 		# Limpa matriz (Para a rotação dos eletrons ficar correta)
 		matrizesOriginais()
 		i=i+1
+	'''
+	while j<len(camadas):
+		distancia=20+(j*5)
+		
+		glColor(coresc[j*1],coresc[(j*1)+1],coresc[(j*1)+2])
+		#glColor(1.0,0.1,0.1)
+		while i<camadas[j]:
+			# Define coordenadas do eletron atual
+			rad=(2*pi)/camadas[j]		
+			x = (sin((rad*i)+k)*distancia)
+			y = 0
+			z = (cos((rad*i)+k)*distancia)
+							
+			# Cria eletron							 
+			eletron=Eletron(x,y,z)	
+			
+			# Adiciona eletron no arranjo eletrons				
+			eletrons.append(eletron)
+			
+			# Limpa matriz (Para a rotação dos eletrons ficar correta)
+			matrizesOriginais()
+			i=i+1
+		matrizesOriginais()
+		i=0
+		j=j+1
 		
 	return eletrons
 
@@ -85,12 +116,19 @@ def desenhaAtomo(i):
 	
 	nucleo=fazNucleo(7)
 	
-	eletrons=fazCamadaEletrons(2,i)
+	eletrons=fazCamadaEletrons(108,i)
 
 	glutSwapBuffers();
 
 		
 def anima():
+	'''
+	camadas = retornaCamadas(8)
+	j=0
+	while j<len(camadas):
+		print(camadas[j]) 
+		j=j+1
+	'''
 	i=0
 	while (True and parada==False):
 		desenhaAtomo(i)		
@@ -129,6 +167,7 @@ def matrizesOriginais():
 	
 	#define (x,y,z) da camera, (x,y,z) do objeto e (x,y,z) do vetor de cima da cena
 	gluLookAt(0,80,200, 0, 0, 0, 0, 1, 0);
+	
 	
 
 def inicializa():
@@ -171,7 +210,5 @@ def inicializa():
 arr=retornaPos(a)
 cores = retornaCor(a)
 
-print("OOOOOOOPA")
-print(cos(6.28))
 
 
