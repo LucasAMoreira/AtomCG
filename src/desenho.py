@@ -129,10 +129,15 @@ def anima():
 		print(camadas[j]) 
 		j=j+1
 	'''
+	
+	tempo=glutGet(GLUT_ELAPSED_TIME)
 	i=0
-	while (True and parada==False):
+	while (tempo<20000):
+		print(tempo)
 		desenhaAtomo(i)		
-		i=i+0.01	
+		i=i+0.01
+		tempo=glutGet(GLUT_ELAPSED_TIME)
+	tempo=0	
 	
 
 def visualizacao():
@@ -204,11 +209,11 @@ def inicializa():
 	# Habilita o depth-buffering
 	glEnable(GL_DEPTH_TEST);	
 	
-	anima();
+	desenhaAtomo(0)
+	
 
 		
 arr=retornaPos(a)
 cores = retornaCor(a)
-
 
 
