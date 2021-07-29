@@ -6,7 +6,7 @@ Para executar o programa é necessário ter as seguintes bibliotecas:
 - PyOpenGL 
 - PyOpenGL_accelerate
 
-## Inicio
+## Início
 
 No terminal, vá no diretório onde o programa foi baixado e o execute:
 
