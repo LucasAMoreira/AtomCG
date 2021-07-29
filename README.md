@@ -15,5 +15,5 @@ python3 main.py
 ```
 ## Animação
 
-Para animar o átomo, clique nele com o botão direito do mouse.
-Para modificar o número de massa e de elétrons, altere o arquivo desenho.py
+- Para animar o átomo, clique nele com o botão direito do mouse.
+- Para modificar o número de massa e de elétrons, altere o arquivo desenho.py
