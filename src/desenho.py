@@ -3,11 +3,14 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
 from util_atomo import*
+#from interacao import*
+
+#from esfera import esfera
 
 # -------------------------
 # -------------------------
 
-numeroMassa=10
+numeroMassa=7
 numeroEletrons=40
 
 # -------------------------
@@ -19,6 +22,8 @@ width=500;
 length=500;
 
 f = width/length;
+
+angulo=30
 
 # retorna arranjo de combinações de cores
 coresc=retornaCor(numeroEletrons)
@@ -46,7 +51,8 @@ def fazNucleo(n):
 			
 		glTranslated(arr[i],arr[i+1],arr[i+2]);
 		glColor3f(cores[i],cores[i+1],cores[i+2])
-		glutSolidSphere(3.0,50,8);									
+		glutSolidSphere(3.0,50,8);
+		#esfera(n)									
 		i=i+3
 	matrizesOriginais()
 	return
@@ -72,7 +78,12 @@ def fazCamadaEletrons(n,k):
 			x = (sin((rad*i)+k+j)*distancia)
 			y = 1
 			z = (cos((rad*i)+k+j)*distancia)
-							
+			
+			#Rotacionamos algumas camadas para elas transladarem em volta do núcleo
+			#de forma diferente das demais camadas
+			if j%2==0:
+				glRotate(45,1.0,0.0,0.0)
+								
 			# Cria eletron							 
 			eletron=Eletron(x,y,z)	
 			
@@ -105,9 +116,10 @@ def anima():
 	
 	tempo=glutGet(GLUT_ELAPSED_TIME)
 	i=0
-	while (tempo<20000):
-		desenhaAtomo(i)		
-		i=i+0.01
+	while (tempo<10000):
+		desenhaAtomo(i)
+		#Quanto mais rápido i cresce, mais rápido é o movimento dos elétrons 		
+		i=i+0.7
 		tempo=glutGet(GLUT_ELAPSED_TIME)
 	tempo=0	
 	
@@ -118,7 +130,7 @@ def visualizacao():
 	glLoadIdentity();
 		
 	#Perspectiva: angulo, altura, distancia corte mais perto, distancia fundo
-	gluPerspective(45, f,0.1,500);
+	gluPerspective(angulo, f,0.1,500);
 	
 	#Toda futura operação vai afetar o desenho -> GL_MODELVIEW
 	glMatrixMode(GL_MODELVIEW);
@@ -136,7 +148,7 @@ def matrizesOriginais():
 	glLoadIdentity();
 		
 	#Perspectiva: angulo, altura, distancia corte mais perto, distancia fundo
-	gluPerspective(45, f,0.1,500);
+	gluPerspective(angulo, f,0.1,500);
 	
 	#Toda futura operação vai afetar o desenho -> GL_MODELVIEW
 	glMatrixMode(GL_MODELVIEW);
@@ -181,7 +193,8 @@ def inicializa():
 	# Habilita o depth-buffering
 	glEnable(GL_DEPTH_TEST);	
 	
-	desenhaAtomo(0)
 	
+	desenhaAtomo(0)
+
 
 
