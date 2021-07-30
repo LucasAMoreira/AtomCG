@@ -10,7 +10,7 @@ from util_atomo import*
 # -------------------------
 # -------------------------
 
-numeroMassa=7
+numeroMassa=9
 numeroEletrons=40
 
 # -------------------------
@@ -48,9 +48,10 @@ class Eletron:
 def fazNucleo(n):
 	i=0
 	while i<3*n:
-			
+		matrizesOriginais()
 		glTranslated(arr[i],arr[i+1],arr[i+2]);
-		glColor3f(cores[i],cores[i+1],cores[i+2])
+		#glColor3f(cores[i],cores[i+1],cores[i+2])
+		glColor3f(1.0,0.0,0.0)
 		glutSolidSphere(3.0,50,8);
 		#esfera(n)									
 		i=i+3
@@ -71,6 +72,7 @@ def fazCamadaEletrons(n,k):
 		distancia=20+(j*5)
 		
 		glColor(coresc[j*1],coresc[(j*1)+1],coresc[(j*1)+2])
+		#glColor(0.0,1.0,coresc[(j*1)+2])
 		
 		while i<camadas[j]:
 			# Define coordenadas do eletron atual
@@ -83,7 +85,9 @@ def fazCamadaEletrons(n,k):
 			#de forma diferente das demais camadas
 			if j%2==0:
 				glRotate(45,1.0,0.0,0.0)
-								
+			
+			if j%2==1:
+				glRotate(15,1.0,0.0,0.0)	
 			# Cria eletron							 
 			eletron=Eletron(x,y,z)	
 			
@@ -119,7 +123,7 @@ def anima():
 	while (tempo<10000):
 		desenhaAtomo(i)
 		#Quanto mais rápido i cresce, mais rápido é o movimento dos elétrons 		
-		i=i+0.7
+		i=i+0.1
 		tempo=glutGet(GLUT_ELAPSED_TIME)
 	tempo=0	
 	
