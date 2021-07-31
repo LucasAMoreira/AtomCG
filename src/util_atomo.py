@@ -67,11 +67,17 @@ def retornaPos(n):
 def retornaPos(n):
 	posicoes =[]
 	i=0
-	while i<n:
-		posicoes.append(cos(i)*i);
-		posicoes.append(sin(i)*i);
-		posicoes.append(randint(floor(-n),floor(n)));
-		i=i+1
+	if(n==15):#       centro  trás frente  direita esquerda cima   baixo
+		posicoes=[0,0,0, 0,0,-4, 0,0,4, 5,0,0, -5,0,0,  0,5,0, 0,-5,0]
+		# diagonais esq.   trás-inf. frente-inf frente- 
+		posicoes=posicoes+[-3,-3,-3,  -3,-3,3, -3,3,3, -3,3,-3, 3,-3,-3,  3,-3,3, 3,3,3, 3,3,-3 ]
+	
+	else:
+		while i<n:
+			posicoes.append(cos(i)*i);
+			posicoes.append(sin(i)*i);
+			posicoes.append(randint(floor(-n),floor(n)));
+			i=i+1
 	return posicoes
 
 

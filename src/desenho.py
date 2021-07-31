@@ -10,7 +10,7 @@ from util_atomo import*
 # -------------------------
 # -------------------------
 
-numeroMassa=9
+numeroMassa=15
 numeroEletrons=40
 
 # -------------------------
@@ -115,16 +115,18 @@ def desenhaAtomo(i):
 	glutSwapBuffers();
 
 
-# 		
+# Move os elétrons por cerca de 10 segundos		
 def anima():
 	
-	tempo=glutGet(GLUT_ELAPSED_TIME)
+	tempoInicial=glutGet(GLUT_ELAPSED_TIME)
+	tempoFinal=tempoInicial+10000
+	tempoAtual=glutGet(GLUT_ELAPSED_TIME)
 	i=0
-	while (tempo<10000):
+	while (tempoAtual<tempoFinal):
 		desenhaAtomo(i)
 		#Quanto mais rápido i cresce, mais rápido é o movimento dos elétrons 		
 		i=i+0.1
-		tempo=glutGet(GLUT_ELAPSED_TIME)
+		tempoAtual=glutGet(GLUT_ELAPSED_TIME)
 	tempo=0	
 	
 
