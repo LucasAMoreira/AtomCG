@@ -3,15 +3,21 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
 from util_atomo import*
-#from interacao import*
 
-#from esfera import esfera
+'''
+Script com rotinas responsáveis por:
+	- desenhar o átomo
+	- Posicionar observador
+	- Iluminar cena
+'''
+
+
 
 # -------------------------
 # -------------------------
 
-numeroMassa=15
-numeroEletrons=40
+numeroMassa=40
+numeroEletrons=10
 
 # -------------------------
 # -------------------------
@@ -32,6 +38,9 @@ cores = retornaCor(numeroMassa)
 # retorna arranjo com posições dos elementos do núcleo
 arr=retornaPos(numeroMassa)
 
+# Classe Eletron. 
+# Seu construtor recebe como parâmetro as coordenadas para translada-lo.
+# Usa o método do OpenGL 'glutSolidSphere',
 class Eletron:
 
 	def __init__(self,x,y,z):
@@ -71,10 +80,9 @@ def fazCamadaEletrons(n,k):
 	while j<len(camadas):
 		distancia=20+(j*5)
 		
-		glColor(coresc[j*1],coresc[(j*1)+1],coresc[(j*1)+2])
-		#glColor(0.0,1.0,coresc[(j*1)+2])
-		
 		while i<camadas[j]:
+			glColor(coresc[j],coresc[(j)+1],coresc[(j)+2])
+		
 			# Define coordenadas do eletron atual
 			rad=(2*pi)/camadas[j]		
 			x = (sin((rad*i)+k+j)*distancia)
@@ -104,7 +112,10 @@ def fazCamadaEletrons(n,k):
 	return eletrons
 
 
-	
+
+# Desenha o átomo
+# Recebe como parâmetro um número i que será usado para
+# calcular a posição do elétron	
 def desenhaAtomo(i):
 	visualizacao()
 	
@@ -114,47 +125,21 @@ def desenhaAtomo(i):
 
 	glutSwapBuffers();
 
-
-# Move os elétrons por cerca de 10 segundos		
-def anima():
 	
-	tempoInicial=glutGet(GLUT_ELAPSED_TIME)
-	tempoFinal=tempoInicial+10000
-	tempoAtual=glutGet(GLUT_ELAPSED_TIME)
-	i=0
-	while (tempoAtual<tempoFinal):
-		desenhaAtomo(i)
-		#Quanto mais rápido i cresce, mais rápido é o movimento dos elétrons 		
-		i=i+0.1
-		tempoAtual=glutGet(GLUT_ELAPSED_TIME)
-	tempo=0	
-	
-
+# Inicializa matriz de projeção 
 def visualizacao():
-	#Toda futura operação vai afetar a câmera
-	matriz=glMatrixMode(GL_PROJECTION);	
+	# Inicializa matriz de projeção
+	glMatrixMode(GL_PROJECTION);	
 	glLoadIdentity();
-		
-	#Perspectiva: angulo, altura, distancia corte mais perto, distancia fundo
-	gluPerspective(angulo, f,0.1,500);
-	
-	#Toda futura operação vai afetar o desenho -> GL_MODELVIEW
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
-	#define (x,y,z) da camera, (x,y,z) do objeto e (x,y,z) do vetor de cima da cena
-	gluLookAt(0,80,200, 0, 0, 0, 0, 1, 0);
-		
+	# Limpa buffer de cores	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	
-
+# Inicializa matriz do modelo
+# Define posições na cena
 def matrizesOriginais():	
-	#Toda futura operação vai afetar a câmera
-	matriz=glMatrixMode(GL_PROJECTION);	
-	glLoadIdentity();
 		
 	#Perspectiva: angulo, altura, distancia corte mais perto, distancia fundo
-	gluPerspective(angulo, f,0.1,500);
+	gluPerspective(angulo, f,0.4,400);
 	
 	#Toda futura operação vai afetar o desenho -> GL_MODELVIEW
 	glMatrixMode(GL_MODELVIEW);
@@ -164,8 +149,10 @@ def matrizesOriginais():
 	gluLookAt(0,80,200, 0, 0, 0, 0, 1, 0);
 	
 	
-
+# Baseado no método 'inicializa' do tutorial "Utilizando luzes"
+# Disponível em: https://www.inf.pucrs.br/~manssour/OpenGL/Iluminacao.html
 def inicializa():
+	
 	luzAmbiente = [0.2,0.2,0.2,1.0]
 	luzDifusa = [0.7,0.7,0.7,1.0]
 	luzEspecular = [1.0,1.0,1.0,1.0]
@@ -173,9 +160,6 @@ def inicializa():
 	
 	especularidade=[1.0,1.0,1.0,1.0]; 
 	especMaterial = 60;
-
-	# Cor de fundo
-	glClearColor(0.0, 0.0, 0.0, 1.0)
 		
 	glShadeModel(GL_SMOOTH);
 
@@ -189,7 +173,7 @@ def inicializa():
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa );
 	glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular );
 	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
-
+	
 	#Habilita a definição da cor do material a partir da cor corrente
 	glEnable(GL_COLOR_MATERIAL);
 	#Habilita o uso de iluminação
@@ -199,7 +183,7 @@ def inicializa():
 	# Habilita o depth-buffering
 	glEnable(GL_DEPTH_TEST);	
 	
-	
+		
 	desenhaAtomo(0)
 
 

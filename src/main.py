@@ -5,6 +5,9 @@ from OpenGL.GLUT import *
 from desenho import*
 from interacao import*
 
+import argparse
+import sys
+
 '''
 Caso você queira alterar o número de massa e o número de elétrons, vá ao arquivo desenho.py
 
@@ -17,4 +20,5 @@ glutInitWindowSize(width,length)
 janela = glutCreateWindow("Atomo CG")
 glutDisplayFunc(inicializa);
 glutMouseFunc(mouse);
-glutMainLoop()
+glutMainLoop()	
+	

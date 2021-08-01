@@ -1,87 +1,36 @@
 from random import *
 from math import *
 
-width=500;
-length=500;
-
-f = width/length;
-
-a=7
-j=-50
 '''
-def retornaPos(n):
-	posicoes =[]
-	i=1
-	# Talvez imaginar como uma matriz 3D
-	while i<=n:
-		
-		posicoes.append(-1);
-		posicoes.append(-1);
-		posicoes.append(0);
-		
-		
-		if n%i==0:
-			posicoes.append(c);
-			posicoes.append(sin(i)*i);
-			posicoes.append(0-i);
-		if n%i==1:
-			posicoes.append(5);
-			posicoes.append(5);
-			posicoes.append(5);
-		if n%i==2:
-			posicoes.append(0);
-			posicoes.append(5);
-			posicoes.append(5);
-		if n%i==3:
-			posicoes.append(10);
-			posicoes.append(10);
-			posicoes.append(10); 
-		
-		i=i+1
-	return posicoes
-'''
+Este script possui rotinas auxiliares para o script desenho.py, como:
 
+	- Retornar coordenadas para o núcleo (retornaPos)
+	- Retornar arranjo de cores para os elétrons (retornaCor)
+	- Retornar como os elétrons são distribuídos nas camadas (retornaCamadas)
 
 '''
-def retornaPos(n):
-	posicoes = []
-	x=n/2
-	i=0	
-	while i<n:
-		if(i<n/3):
-			posicoes.append(i*4-x)
-			posicoes.append(0)
-			posicoes.append(0)
-		if(i>=n/3 and i<2*n/3):
-			posicoes.append((i-n/3)*4-x)
-			posicoes.append(4)
-			posicoes.append(0)
-		if(i>=2*n/3):
-			posicoes.append((i-2*n/3)*4-x)
-			posicoes.append(8)
-			posicoes.append(0)
-		i=i+1
-	return posicoes
-'''
+
+# Retorna arranjo com posições dos elementos do núcleo
+# Retorna um arranjo 3 vezes maior que o número de elementos
+# Outra solução possível seria retornar uma matriz nX3
 
 def retornaPos(n):
-	posicoes =[]
-	i=0
-	if(n==15):#       centro  trás frente  direita esquerda cima   baixo
-		posicoes=[0,0,0, 0,0,-4, 0,0,4, 5,0,0, -5,0,0,  0,5,0, 0,-5,0]
-		# diagonais esq.   trás-inf. frente-inf frente- 
-		posicoes=posicoes+[-3,-3,-3,  -3,-3,3, -3,3,3, -3,3,-3, 3,-3,-3,  3,-3,3, 3,3,3, 3,3,-3 ]
+	arr =[]
 	
-	else:
-		while i<n:
-			posicoes.append(cos(i)*i);
-			posicoes.append(sin(i)*i);
-			posicoes.append(randint(floor(-n),floor(n)));
-			i=i+1
-	return posicoes
-
-
-
+	if(n==15):
+		# Interno  centro  trás  frente  direita esquerda cima   baixo
+		posicoes=[0,0,0, 0,0,-4, 0,0,4, 5,0,0, -5,0,0,  0,5,0, 0,-5,0]
+		# diagonais da esquerda
+		posicoes=posicoes+[-3,-3,-3,  -3,-3,3, -3,3,3, -3,3,-3]
+		# diagonais da direita
+		posicoes=posicoes+[ 3,-3,-3,  3,-3,3, 3,3,3, 3,3,-3 ]
+		return posicoes
+	
+	i=0
+	while i<3*n:
+		arr.append(randint(floor(-n/4),floor(n/4)));
+		i=i+1
+	return arr
 	
 # Recebe númeron n 
 # Retorna n combinações Float de cores
@@ -123,18 +72,4 @@ def retornaCamadas(n):
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
